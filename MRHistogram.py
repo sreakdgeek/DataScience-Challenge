@@ -26,7 +26,7 @@ class MRHistogram(MRJob):
 
                 try:
                     like = like.decode(encoding_scheme)
-                except UnicodeDecodeError:
+                except (UnicodeDecodeError, LookupError):
                     like = like.decode('ISO-8859-1')
 
                 yield (like, like_arr[0])
@@ -38,7 +38,6 @@ class MRHistogram(MRJob):
 
         if len(like_list_ids) >= cutoff:
             like = like.encode('UTF-8')
-            #print type(like_list)
             yield "%s, %s" % (like, like_count), like_list_ids
 
 # Main
